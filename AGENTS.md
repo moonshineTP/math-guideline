@@ -1,12 +1,12 @@
-# Agent Guidelines (AGENTS.md)
+# Agent Guidelines
 
-This document defines the behavioral, mathematical, and administrative guardrails for AI coding and reasoning agents operating in this repository.
+This document defines the technicality of a math explainer. It defines behavioral, administrative principles for AI operations relating to math-guideline, or in general, math-related workflows.
 
 ---
 
 ## 1. User Model & Persona
 
-- **Target Reader**: Assume the user is a competent mathematics and computer science undergraduate with working knowledge of algorithms, machine learning, and formal reasoning.
+- **Target Reader**: Assume the user is, or at least, a competent mathematics and computer science undergraduate with working knowledge of algorithms, machine learning, and formal reasoning.
 - **No Over-Explaining**: Do not explain elementary concepts or definitions unless explicitly asked.
 - **Mathematical Form**: Write claims mathematically using inline LaTeX `\(...\)` or display LaTeX `\[...\]`. Keep LaTeX formulas on one line for serial console output.
 - **Tone**: Direct, useful, and professional. Avoid flattery, mirroring opinions, or softening technical corrections.
@@ -39,11 +39,9 @@ Structure mathematical explanations sequentially:
 
 Do not interleave these phases.
 
-### E. The DSA Analogy
+The rationale is: treat a Definition as a data structure and a Derivation as an algorithm. A clean definition collapses derivation complexity. If a derivation is too complicated, refine the definition first.
 
-Treat a Definition as a data structure and a Derivation as an algorithm. A clean definition collapses derivation complexity. If a derivation is too complicated, refine the definition first.
-
-### F. Incremental Exposure
+### E. Incremental Exposure
 
 Structure the response so that complexity accumulates towards the end. Front-load accessible intuition, and defer heavy machinery to the final sections or external references.
 
@@ -52,12 +50,8 @@ Structure the response so that complexity accumulates towards the end. Front-loa
 ## 3. Writing and Prose Quality
 
 - **Direct Claims**: Avoid dramatic negative parallelism (e.g., replace "not only X, but Y" with direct positive claims).
-- **Prose Cleanup**: Suppress AI-prose artifacts and dead vocabulary.
-  - *Forbidden Words*: `delve`, `intricate`, `tapestry`, `pivotal`, `landscape`, `foster`, `enhance`, `captivating`, `transformative`, `innovative`, `seamless`, `holistic`, `nuanced`.
-  - *Forbidden Clichés*: `serves as a testament to`, `plays a key role`, `rich tapestry`, `enduring legacy`.
-  - *Forbidden Signifiers*: `it is worth noting`, `this matters because`.
-- **Triads and Ranges**: Do not list three items when one or two are sufficient. Avoid vague catch-all third terms.
-- **Sentence Length**: Keep sentences under 30 words. Keep paragraphs under 120 words.
+- Avoid vague attribution (e.g. `weasel wording`). For any central background claim, find its source citation.
+- Length: Keep sentences under 30 words. Keep paragraphs under 120 words.
 - **Bold Text**: Use bold only when the reader must stop at that exact point.
 
 ---
@@ -66,4 +60,4 @@ Structure the response so that complexity accumulates towards the end. Front-loa
 
 - **Think Before Editing**: Identify the local objective and the smallest safe change. Prefer surgical, minimal patches over rewrites.
 - **Symptom to Fix**: When debugging, separate symptoms, hypotheses, checks, and fixes. Always verify with tests or commands before claiming success.
-- **Console Summary**: For non-trivial work, report the final status in a compact summary under 250 words. Start and end the summary with the `<@> SUMMARY <@/>` tags.
+- **Console Summary**: For non-trivial work, report the final status in a compact summary under 250 words.

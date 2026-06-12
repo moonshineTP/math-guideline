@@ -2,9 +2,10 @@
 name: math-guideline
 description: Behavioral guidelines to reduce common LLM mistakes in mathematical explanation. Use when writing, reviewing, or explaining mathematical content to avoid undefined notation, goal-free exposition, word-over-math substitution, and open-ended tangents.
 license: Apache-2.0
+author: moonshineTP
 ---
 
-# Math-Guide
+# Math-Guideline
 
 Behavioral guidelines for mathematical exposition, modeled on the Karpathy Guidelines for code. These are derived from observed failure modes in LLM-driven mathematical explanation, with a concrete case study.
 
@@ -109,14 +110,14 @@ At the global level, multiple DDI blocks should appear in dependency order: the 
 
 **A clean definition determines the derivation. If the derivation is complicated, the definition is probably imprecise.**
 
-This analogy sharpens the DDI workflow. In software, a well-chosen data structure makes the algorithm short and obvious. In mathematics, a well-stated definition makes the derivation mechanical. If you find yourself writing a long derivation, ask whether a cleaner definition would collapse it.
+This analogy sharpens the DDI workflow. In Computer Science, a well-chosen data structure makes the algorithm comes almost naturally. In mathematics, a well-stated definition makes the derivation mechanical. A good definition should follow the quality of a database design: concise, self-explainatory, independent but interconnected.
 
-Applied to the OT case:
-- Define $W_2^2$ as the infimum of kinetic energy over continuity-equation-constrained curves. This definition immediately encodes transport cost as kinetic energy; the definition *is* the transport problem.
-- From that definition, the Wasserstein gradient of a functional $\mathcal{F}$ follows by a one-line duality argument.
-- The heat equation then drops out mechanically by substituting $\mathcal{F} = \operatorname{Ent}$.
+If you find your notation to be ad-hoc, prioritize simplifying it at now.
+If you find your notation list to be lengthy and almost complicating, ask whether you can reorganize.
+If you find yourself writing a long derivation, ask whether a cleaner definition would collapse it. 
+If you find your proof stuck somewhere, scrape that trial, define the missing pieces, and rerun the analysis ground-up.
 
-Insight should be sparse. A good definition and a clean derivation are self-documenting. Insight text is for pointing at the non-obvious or globally connecting consequence.
+Insight should be sparse and impactful, highlighting qualities of the claim. Analogous to code comment practices, insight should answer more `what` than `how`. A good definition and a clean derivation are self-documenting. Insights should act as linkage for the non-obvious or globally connecting analysis.
 
 ---
 
@@ -124,11 +125,13 @@ Insight should be sparse. A good definition and a clean derivation are self-docu
 
 **Write so that complexity accumulates toward the end. The first paragraph must be readable; the last may require full machinery.**
 
-Mathematical responses should be structured as a gradient, not a uniform density of difficulty. A reader who stops at any point should have learned something correct and usable. A reader who reaches the end has the full picture.
+Mathematical responses should be structured as a gradient, not a uniform density of difficulty. A reader who stops at any point should have learned something correct and usable. A reader who reaches the end has the full picture. Former materials aid the reader along the way, not obstruct it.
 
 Implementation:
 - Open with the key statement in its simplest correct form (e.g. the TL;DR).
 - Proceed to the formal setup: the objects, their definitions, the theorem to be proved.
 - Carry out the derivation.
 - Place extensions, analogues, and generalizations last.
-- For material that genuinely requires more background than the response can supply, place a forward pointer: "a full treatment requires the Riemannian structure on $(\mathcal{P}_2, W_2)$; see [Jordan-Kinderlehrer-Otto 1998]." Do not attempt to derive it inline.
+- For material that genuinely requires more background than the response can supply, place a forward pointer: "a full treatment requires the Riemannian structure on $(\mathcal{P}_2, W_2)$; see [Jordan-Kinderlehrer-Otto 1998]."
+
+Do not reinvent the wheel, attach supplement materials instead. Let the user decide what to investigate next. 
