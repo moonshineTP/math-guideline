@@ -140,8 +140,8 @@ Contributions are welcome to refine the guidelines or expand the validation tool
 
 This project is built on the shoulders of giants:
 
-- **[Andrej Karpathy Guidelines](https://github.com/multica-ai/andrej-karpathy-skills)** - For pioneering project-level behavioral rules for coding agents.
-- **[Claude Skills](https://github.com/dmccreary/claude-skills)** - For the structure of self-contained tool and guideline folders.
+- **[Andrej Karpathy](https://karpathy.ai/)** and the **[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)** repository - For pioneering project-level behavioral rules for coding agents.
+- **[Dan McCreary](https://github.com/dmccreary)**, creator of the **[readme-generator](https://github.com/dmccreary/claude-skills)** skill - For the structure of self-contained tool and guideline folders and automated README generation workflow.
 - The open-source community for developing static analysis and LLM behavioral guidelines.
 
 ---
