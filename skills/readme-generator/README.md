@@ -127,7 +127,7 @@ See the generated README.md in the parent repository for a real-world example.
 
 ## License
 
-MIT License - Feel free to use and adapt for your projects.
+Apache License 2.0 - Feel free to use and adapt for your projects.
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 # Math Guideline
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Antigravity](https://img.shields.io/badge/Built%20with-Antigravity-blue?logo=google)](https://deepmind.google)
 [![Claude Skills](https://img.shields.io/badge/Uses-Claude%20Skills-DA7857?logo=anthropic)](https://github.com/dmccreary/claude-skills)
 [![GitHub](https://img.shields.io/badge/GitHub-moonshineTP%2Fmath--guideline-blue?logo=github)](https://github.com/moonshineTP/math-guideline)
@@ -157,4 +157,4 @@ This project is built on the shoulders of giants:
 
 ## License
 
-This project is licensed under the MIT License. See [./LICENSE](./LICENSE) for full details.
+This project is licensed under the Apache License 2.0. See [./LICENSE](./LICENSE) for full details.

@@ -1,7 +1,7 @@
 ---
 name: math-guideline
 description: Behavioral guidelines to reduce common LLM mistakes in mathematical explanation. Use when writing, reviewing, or explaining mathematical content to avoid undefined notation, goal-free exposition, word-over-math substitution, and open-ended tangents.
-license: MIT
+license: Apache-2.0
 ---
 
 # Math-Guide

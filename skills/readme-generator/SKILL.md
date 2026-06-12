@@ -1,7 +1,7 @@
 ---
 name: readme-generator
 description: This skill creates or updates a README.md file in the GitHub home directory of the current project. The README.md file it generates will conform to GitHub best practices, including badges, project overview, site metrics, getting started instructions, and comprehensive documentation.
-license: MIT
+license: Apache-2.0
 ---
 
 # README Generator
