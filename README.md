@@ -36,80 +36,6 @@ Key components of this system include:
 
 ---
 
-## Repository Status and Metrics
-
-| Metric | Count |
-|--------|-------|
-| Skills | 2 |
-| Samples | 2 |
-| Supporting Scripts | 2 |
-| Total Markdown Files | 6 |
-| Total Words | ~6,000 |
-
-*Current completion status:* Fully functional reference guidelines and validation suite.
-
----
-
-## Getting Started
-
-### Installation
-
-To use the math guidelines in your agentic workspace, clone the repository:
-
-```bash
-git clone https://github.com/moonshineTP/math-guideline.git
-cd math-guideline
-```
-
-### Usage
-
-#### 1. Applying Guidelines to AI Agents
-
-To immediately align your AI assistant (e.g., Cursor, Gemini, Claude, or Copilot) with these guidelines, copy the
-`AGENTS.md` file from the root of this project into the root directory of your workspace. Coding assistants
-automatically parse this file at the start of a session and apply the behavioral guardrails.
-
-#### 2. Running the Supporting Scripts
-
-The repository includes scripts to collect documentation metrics and validate your project's README:
-
-- **Metrics Collection**: Gathers stats on markdown files, word count, equations, lists, and tables.
-  ```bash
-  python skills/readme-generator/scripts/collect-site-metrics.py /path/to/project
-  ```
-
-- **README Validation**: Checks your README for formatting issues, structure, and completeness.
-  ```bash
-  python skills/readme-generator/scripts/validate-readme.py README.md
-  ```
-
----
-
-## Repository Structure
-
-```text
-math-guideline/
-├── LICENSE                          # MIT License file
-├── README.md                        # This file
-├── AGENTS.md                        # Behavioral rules and instruction set for agents
-└── skills/                          # Claude AI skills
-    ├── math-guideline/              # Core math rules and case study samples
-    │   ├── SKILL.md                 # Math exposition pitfalls and patterns
-    │   └── samples/
-    │       ├── Sample.md            # Correct exposition sample (Vietnamese)
-    │       └── Antisample.md        # Pitfalls case study annotation
-    └── readme-generator/            # README generation skill
-        ├── SKILL.md                 # README generator guidelines
-        ├── README.md                # Documentation for readme-generator
-        ├── references/
-        │   └── badges.md            # Badge styling and layout reference
-        └── scripts/
-            ├── collect-site-metrics.py  # Script for scanning repo metrics
-            └── validate-readme.py       # Script for validating formatting and sections
-```
-
----
-
 ## Reporting Issues
 
 Found a bug, typo, or have a suggestion for improving the guidelines or scripts? Please open an issue on GitHub:
@@ -119,39 +45,17 @@ Found a bug, typo, or have a suggestion for improving the guidelines or scripts?
 When reporting issues, please include:
 
 - A description of the issue or improvement suggestion.
-- Steps to reproduce (for script bugs).
-- An example of mathematical text that violates or conforms to the guidelines.
-
----
-
-## Contributing
-
-Contributions are welcome to refine the guidelines or expand the validation tooling. To contribute:
-
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/amazing-improvement`).
-3. Commit your changes (`git commit -m 'Add mathematical pattern X'`).
-4. Push to the branch (`git push origin feature/amazing-improvement`).
-5. Open a Pull Request.
+- A concrete metric of degradation/improvement surrounding a reproducible task.
+- A TLDR and/or rationale for lengthy PRs.
 
 ---
 
 ## Acknowledgements
 
-This project is built on the shoulders of giants:
+This project acknowledge the usage of:
 
 - **[Andrej Karpathy](https://karpathy.ai/)** and the **[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)** repository - For pioneering project-level behavioral rules for coding agents.
 - **[Dan McCreary](https://github.com/dmccreary)**, creator of the **[readme-generator](https://github.com/dmccreary/claude-skills)** skill - For the structure of self-contained tool and guideline folders and automated README generation workflow.
-- The open-source community for developing static analysis and LLM behavioral guidelines.
-
----
-
-## Contact
-
-**moonshineTP**
-
-- GitHub: [@moonshineTP](https://github.com/moonshineTP)
-- Project Remote: [math-guideline](https://github.com/moonshineTP/math-guideline)
 
 ---
 
