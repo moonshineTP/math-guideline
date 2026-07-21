@@ -1,137 +1,163 @@
 ---
 name: math-guideline
-description: Behavioral guidelines to reduce common LLM mistakes in mathematical explanation. Use when writing, reviewing, or explaining mathematical content to avoid undefined notation, goal-free exposition, word-over-math substitution, and open-ended tangents.
+description: >
+  Produce, audit, or repair mathematical explanations, proofs, derivations, and
+  solution writeups. Use whenever a response contains non-trivial mathematics or
+  the user asks to explain, verify, formalize, derive, prove, audit, or improve a
+  mathematical argument. Apply this skill before drafting mathematical content,
+  including short answers when a hidden assumption, domain restriction, or notation
+  ambiguity could change the result.
 license: Apache-2.0
-author: moonshineTP
+author: MoonshineTP
 ---
 
-# Math-Guideline
+# Math Guideline
 
-Behavioral guidelines for mathematical exposition, modeled on the Karpathy Guidelines for code. These are derived from observed failure modes in LLM-driven mathematical explanation, with a concrete case study.
+Write mathematical content as a verifiable, human-readable argument for a competent
+reader. Preserve the user's intended notation, requested depth, and proof style.
 
-**Tradeoff:** These guidelines bias toward precision and completeness over speed. For a quick sanity check or a one-liner definition, use judgment.
+## Execution Contract
 
----
+Establish the following before deriving anything:
 
-# Common Pitfalls in LLM Mathematical Exposition
+1. **Target**: state the proposition, quantity, or question to resolve.
+2. **Setting**: give the domain, assumptions, and conventions that affect truth.
+3. **Dependencies**: introduce non-standard notation before first use and name
+   the definitions, lemmas, or identities used.
+4. **Boundary**: answer only the requested question. Treat extensions as an
+   optional final remark.
 
-## Pitfall 1: Treating the Reader as a Definition Collector
+Use an agentic task frame when the request concerns an artifact or repository:
 
-**Assume the reader is mathematically competent. Do not over-define. Do not under-define.**
+```text
+Starting state: [given theorem, draft, code, or source]
+Target state: [claim to establish or correction to make]
+Scope: [allowed notation, sources, files, and depth]
+Acceptance criteria: [facts that the final argument must establish]
+Stop condition: [the requested claim is closed]
+```
 
-The failure mode is often: LLMs either re-explain elementary concepts the reader already knows (wasted words), or introduce new objects mid-derivation without announcement (broken causality). The target reader of a math explanation is a competent peer that seek to understand cross-domain concepts. Explain like a oral presentation.
+Do not claim a result that depends on unstated regularity, existence, convergence,
+boundary, or heuristic assumptions.
 
-Concretely:
-- Do not define standard objects unless the question signals unfamiliarity with them
-- Do state the non-standard or context-specific definition of any object you introduce, even if it has a familiar name
-- Derivation steps that collapse an expression are not definitions. Writing $\nabla \cdot (\rho \nabla \log \rho) = \Delta \rho$ is a derivation step; it does not excuse skipping a definition of what $\Delta$ acts on.
+## Default Workflow
 
-The test: for every symbol in your response, ask whether the reader has been given a definition (or can be assumed to know one).
+### 1. State the result
 
----
+Lead with the answer in its simplest correct form. For a proof or derivation,
+state the exact target before the first calculation. For a verification request,
+state the claim being checked and the criterion for failure.
 
-## Pitfall 2: Explaining Without a Proof Goal
+### 2. Build the local vocabulary
 
-**State the proposition before the derivation. Never derive toward an unannounced conclusion.**
+Define only symbols that are non-standard, overloaded, local to the argument,
+or likely to be ambiguous. Keep standard material implicit for the stated
+audience. Declare conventions such as row versus column vectors, positive directions,
+index ranges, logarithm base, norm base, or inner-product convention when they matter.
 
-The most common failure in LLM mathematical text is a derivation that never names its target. The reader sees a sequence of manipulations and only learns the conclusion at the end.
+Every displayed formula must be readable from prior context. If a symbol cannot
+be defined compactly, introduce it in prose immediately before the formula.
 
-Before any derivation:
-- State the object to be proved or derived.
-- Name which definition, lemma, or formula the derivation will apply.
-- If the derivation introduces an intermediate object, say so before introducing it.
+### 3. Derive in dependency order
 
-A block of math without a preceding goal statement is, at best, a calculation exercise. It is not an explanation.
+Use this local sequence for each argument block:
 
----
+1. **Definition or premise**: state the usable relation.
+2. **Operation**: apply one named rule, theorem, or algebraic step at a time.
+3. **Justification**: annotate steps that are not immediate for the intended reader.
+4. **Conclusion**: state the result obtained and its role in the target.
 
-## Pitfall 3: Word Substitution for Obvious Math
+Prefer a concise formula when it carries the claim precisely. Follow it with
+prose that interprets the formula; do not replace a one-line mathematical claim
+with a paragraph of prose.
 
-**If a statement has a concise mathematical form, write that form. Prefer notation over paraphrase.**
+### 4. Close the request
 
-LLMs habitually describe what an expression does in English prose, rather than writing the expression itself. This is the dominant pathology in mathematical AI text. It reads like a transcript of someone who has memorized results but avoids blackboards.
+Restate the answer in the user's terms. Do not introduce fresh notation, a new
+proof obligation, or an unrelated generalization after the target is settled.
 
-Examples of the failure:
-- "The pushforward condition means that sampling from the source and applying the map gives the target distribution" -- write $T_\# \rho_0 = \rho_1$, then define it via $\int f(y)\, d\rho_1(y) = \int f(T(x))\, d\rho_0(x)$ if precision is needed.
-- "The plan is concentrated on pairs of the form source point and its image" -- write $\pi^\star = (\operatorname{id}, T)_\# \rho_0$.
+## Output Modes
 
-The rule: any claim that can be written as a formula in under one line should be written as a formula. Prose goes after, as a reading aid, not before as a substitute.
+Choose the smallest mode that satisfies the request.
 
----
+| Request | Required structure |
+| --- | --- |
+| Definition or intuition | Answer, notation needed to parse it, one consequence or example. |
+| Derivation | Target, setup, numbered transformations with justifications, conclusion. |
+| Proof | Proposition, assumptions, proof, explicit conclusion. |
+| Counterexample | False claim, construction, verification of each required property, violated conclusion. |
+| Review or debug | Claim under review, first invalid step or missing assumption, corrected statement or repair path. |
+| Computation | Formula, substitutions, units or domains, result, sanity check where cheap. |
 
-## Pitfall 4: Ending on Open Questions Instead of Closing the Asked One
+## Edge Cases and Fallbacks
 
-**Close the question that was asked before opening any new concern.**
+### Missing assumptions
 
-LLMs tend to end mathematical responses by gesturing at generalizations, limitations, open problems, or adjacent topics. The result is a response that partially answers the original question and then branches into three loosely connected subtopics, none of which was requested.
+If the conclusion is true only under additional assumptions, state the weakest
+assumptions you can justify and continue conditionally. If their status cannot
+be determined, write the conditional result and mark the unresolved premise.
+Do not silently select a convenient interpretation.
 
-This is particularly damaging in math because the reader often cannot distinguish "this is a genuine open question" from "this is background the LLM is padding with".
+### Ambiguous notation
 
-The discipline:
-- Identify the exact question asked. Close that question with a complete, self-contained answer.
-- If a natural follow-on exists and is genuinely illuminating, add it as a single clearly marked remark, not as a full new section.
-- Do not introduce new notation, new objects, or new proof obligations in a closing paragraph. A closing insight should refer only to objects already in scope.
+Use the user's established convention. If none exists and conventions change the
+answer, state the convention at first use. If two readings yield materially
+different results, give both concise results or ask one focused question before
+committing.
 
----
+### Omitted proof step
 
-# Patterns for Correct Mathematical Exposition
+Compress routine algebra. Expand a step when it changes a sign, exchanges a
+limit or derivative, invokes a theorem, divides by a possibly zero quantity, or
+uses a property not already established. When the full proof exceeds scope,
+identify the exact theorem needed and what it would establish.
 
-## Pattern 1: Causality - Every Object Must Have an Antecedent
+### Invalid or incomplete claim
 
-**Every formula, operator, or object introduced must trace back to a prior definition or result in the same response.**
+Do not repair a false statement by changing it without notice. Give a
+counterexample when practical; otherwise identify the failing implication.
+Then state the nearest correct version and the additional hypothesis it needs.
 
-This is the structural backbone of correct mathematical exposition. It is also the easiest to violate when generating text based only on correlations.
+### Insufficient source material
 
-Implementation:
-- Before writing any formula, ask: have all symbols appearing in it been defined in this response, or can they be assumed known?
-- If a new operator is introduced mid-derivation, stop and introduce it explicitly before using it.
-- Cross-reference is good practice, not redundancy.
+Separate derivable facts from source-dependent facts. Do not fabricate a lemma,
+citation, numerical value, or proof. State the precise missing item and provide
+the strongest conditional conclusion available from the supplied material.
 
-Causality is the mathematical analogue of Karpathy's "every changed line traces to the request." Every introduced symbol traces to an introduction.
+### Numerical or symbolic uncertainty
 
----
+Check dimensions, signs, endpoints, and exceptional values. If a computation
+depends on unstable floating-point arithmetic, report an interval, tolerance, or
+conditioning caveat instead of unsupported exactness.
 
-## Pattern 2: The DDI Workflow - Definition, Derivation, Insight
+### Overlong request
 
-**Structure every mathematical block as: state the object, derive the result, draw the insight. Do not interleave these.**
+Provide the requested main result and the first dependency-complete slice. Name
+the next prerequisite without pretending the full development was supplied.
 
-This is the core workflow.
+## Preflight Checklist
 
-At the local level:
-- **Definition:** Name and formally state the object or relation.
-- **Derivation:** Carry out the steps. This is where the algebra, calculus, or combinatorics lives. Keep it tight, annotate each non-trivial step.
-- **Insight:** State what the derivation means. This is one sentence or one boxed statement.
+Run this before finalizing:
 
-At the global level, multiple DDI blocks should appear in dependency order: the insight of block $k$ may become the definition used in block $k+1$.
+```text
+[ ] The opening states the requested result, not only background.
+[ ] Every non-standard symbol is defined before first use.
+[ ] Domains, quantifiers, and conventions are explicit where they affect truth.
+[ ] Each non-routine transformation has a valid justification.
+[ ] No division by zero, invalid interchange, sign change, or boundary case is hidden.
+[ ] The conclusion matches the stated target and does not overclaim.
+[ ] New material after the conclusion is omitted or clearly optional.
+[ ] Claims tied to a source are supported by that source or marked unresolved.
+```
 
----
+## Failure Patterns
 
-## Pattern 3: The DSA Analogy - Definition is Data Structure, Derivation is Algorithm, Insight is Comment
+- Do not derive toward an unstated conclusion.
+- Do not use notation as a substitute for definition.
+- Do not explain elementary material at the cost of omitting the decisive step.
+- Do not equate an analogy, heuristic, or numerical observation with a proof.
+- Do not add adjacent topics merely because they are mathematically related.
 
-**A clean definition determines the derivation. If the derivation is complicated, the definition is probably imprecise.**
-
-This analogy sharpens the DDI workflow. In Computer Science, a well-chosen data structure makes the algorithm comes almost naturally. In mathematics, a well-stated definition makes the derivation mechanical. A good definition should follow the quality of a database design: concise, self-explainatory, independent but interconnected.
-
-If you find your notation to be ad-hoc, prioritize simplifying it at now.
-If you find your notation list to be lengthy and almost complicating, ask whether you can reorganize.
-If you find yourself writing a long derivation, ask whether a cleaner definition would collapse it. 
-If you find your proof stuck somewhere, scrape that trial, define the missing pieces, and rerun the analysis ground-up.
-
-Insight should be sparse and impactful, highlighting qualities of the claim. Analogous to code comment practices, insight should answer more `what` than `how`. A good definition and a clean derivation are self-documenting. Insights should act as linkage for the non-obvious or globally connecting analysis.
-
----
-
-## Pattern 4: Incremental Exposure - Front-Load the Accessible, Defer the Hard
-
-**Write so that complexity accumulates toward the end. The first paragraph must be readable; the last may require full machinery.**
-
-Mathematical responses should be structured as a gradient, not a uniform density of difficulty. A reader who stops at any point should have learned something correct and usable. A reader who reaches the end has the full picture. Former materials aid the reader along the way, not obstruct it.
-
-Implementation:
-- Open with the key statement in its simplest correct form (e.g. the TL;DR).
-- Proceed to the formal setup: the objects, their definitions, the theorem to be proved.
-- Carry out the derivation.
-- Place extensions, analogues, and generalizations last.
-- For material that genuinely requires more background than the response can supply, place a forward pointer: "a full treatment requires the Riemannian structure on $(\mathcal{P}_2, W_2)$; see [Jordan-Kinderlehrer-Otto 1998]."
-
-Do not reinvent the wheel, attach supplement materials instead. Let the user decide what to investigate next. 
+For an extended example of these failure modes in optimal transport, read
+[samples/Antisample.md](samples/Antisample.md) only when it helps diagnose a
+similar exposition problem.
